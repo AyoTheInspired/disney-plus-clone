@@ -14,6 +14,8 @@ export default Header
 
 const Container = styled.div`
 height: 70px;
-background-color: "#090b13"
-color: orange;
+background-color: #090b13;
+color: green;
+
+
 `
