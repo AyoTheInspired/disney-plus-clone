@@ -75,11 +75,12 @@ const Background = styled.div`
 `;
 
 const ImgTitle = styled.div`
-	height: 30vh;
-	width: 35vw;
+	height: 20vh;
+	width: 20vw;
 	min-height: 170px;
 	min-width: 200px;
 	margin-top: 20px;
+	margin-bottom: 20px;
 
 	img {
 		width: 100%;
