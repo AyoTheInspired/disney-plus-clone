@@ -1,14 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import db from "../firebase";
 
 function Detail() {
+	const { id } = useParams();
+	const [movie, setMovie] = useState();
+
+	useEffect(() => {
+		// Grab movies from database
+
+		db.collection("movies")
+			.doc(id)
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					// save the movie data
+					setMovie(doc.data());
+					console.log(id);
+				} else {
+					return;
+				}
+			});
+	}, []);
+
+	console.log("movie is ", movie);
+
 	return (
 		<Container>
 			<Background>
-				<img
-					src="https://www.awn.com/sites/default/files/styles/original/public/image/attached/1046782-bao-003-lr.jpg?itok=B0CkKSdI"
-					alt=""
-				/>
+				<img src={movie?.backgroundImg} alt="" />
 			</Background>
 
 			<ImgTitle>
