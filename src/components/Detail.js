@@ -6,6 +6,7 @@ import db from "../firebase";
 function Detail() {
 	const { id } = useParams();
 	const [movie, setMovie] = useState();
+	console.log(id);
 
 	useEffect(() => {
 		// Grab movies from database
@@ -17,14 +18,12 @@ function Detail() {
 				if (doc.exists) {
 					// save the movie data
 					setMovie(doc.data());
-					console.log(id);
+					console.log(movie);
 				} else {
 					return;
 				}
 			});
 	}, []);
-
-	console.log("movie is ", movie);
 
 	return (
 		<Container>
