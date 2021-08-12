@@ -9,8 +9,6 @@ function Detail() {
 	console.log(id);
 
 	useEffect(() => {
-		// Grab movies from database
-
 		db.collection("movies")
 			.doc(id)
 			.get()
@@ -18,12 +16,12 @@ function Detail() {
 				if (doc.exists) {
 					// save the movie data
 					setMovie(doc.data());
-					console.log(movie);
 				} else {
 					return;
 				}
 			});
 	}, []);
+	console.log("movie is", movie);
 
 	return (
 		<Container>
@@ -32,7 +30,7 @@ function Detail() {
 			</Background>
 
 			<ImgTitle>
-				<img src="/images/logo.svg" alt="" />
+				<img src={movie?.titleImg} alt="" />
 			</ImgTitle>
 
 			<Controls>
@@ -55,17 +53,9 @@ function Detail() {
 				</GroupWatchButton>
 			</Controls>
 
-			<Subtitle>
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta aliquam
-				magnam consectetur! cupiditate.
-			</Subtitle>
+			<Subtitle>{movie?.subTitle}</Subtitle>
 
-			<Description>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet suscipit
-				perferendis quidem, commodi ullam quae recusandae praesentium accusamus
-				voluptatum debitis mollitia ratione nesciunt hic quisquam rerum, unde at
-				vero a!
-			</Description>
+			<Description>{movie?.description}</Description>
 		</Container>
 	);
 }
