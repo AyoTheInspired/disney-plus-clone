@@ -14,13 +14,12 @@ function Detail() {
 			.get()
 			.then((doc) => {
 				if (doc.exists) {
-					// save the movie data
 					setMovie(doc.data());
 				} else {
 					return;
 				}
 			});
-	}, []);
+	}, [id]);
 	console.log("movie is", movie);
 
 	return (
