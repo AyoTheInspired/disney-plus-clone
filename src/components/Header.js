@@ -1,39 +1,69 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	selectUserName,
+	selectUserPhoto,
+	setUserLogin,
+} from "../features/user/userSlice";
+import { auth, provider } from "../firebase";
 
 function Header() {
+	const userName = useSelector(selectUserName);
+	const userPhoto = useSelector(selectUserPhoto);
+	const dispatch = useDispatch();
+
+	const signIn = () => {
+		auth.signInWithPopup(provider).then((result) => {
+			let user = result.user;
+			dispatch(
+				setUserLogin({
+					name: user.displayName,
+					email: user.email,
+					photo: user.photoURL,
+				})
+			);
+		});
+	};
+
 	return (
 		<Nav>
 			<Logo src="/images/logo.svg" />
 
-			<NavMenu>
-				<a>
-					<img src="/images/home-icon.svg" alt="" />
-					<span>HOME</span>
-				</a>
-				<a>
-					<img src="/images/search-icon.svg" alt="" />
-					<span>SEARCH</span>
-				</a>
-				<a>
-					<img src="/images/watchlist-icon.svg" alt="" />
-					<span>WATCHLIST</span>
-				</a>
-				<a>
-					<img src="/images/original-icon.svg" alt="" />
-					<span>ORIGINALS</span>
-				</a>
-				<a>
-					<img src="/images/movie-icon.svg" alt="" />
-					<span>MOVIES</span>
-				</a>
-				<a>
-					<img src="/images/series-icon.svg" alt="" />
-					<span>SERIES</span>
-				</a>
-			</NavMenu>
+			{!userName ? (
+				<Login onClick={signIn}>Login</Login>
+			) : (
+				<>
+					<NavMenu>
+						<a>
+							<img src="/images/home-icon.svg" alt="" />
+							<span>HOME</span>
+						</a>
+						<a>
+							<img src="/images/search-icon.svg" alt="" />
+							<span>SEARCH</span>
+						</a>
+						<a>
+							<img src="/images/watchlist-icon.svg" alt="" />
+							<span>WATCHLIST</span>
+						</a>
+						<a>
+							<img src="/images/original-icon.svg" alt="" />
+							<span>ORIGINALS</span>
+						</a>
+						<a>
+							<img src="/images/movie-icon.svg" alt="" />
+							<span>MOVIES</span>
+						</a>
+						<a>
+							<img src="/images/series-icon.svg" alt="" />
+							<span>SERIES</span>
+						</a>
+					</NavMenu>
 
-			<UserImg src="https://res.cloudinary.com/ayotheinspired/image/upload/v1620670514/samples/people/smiling-man.jpg" />
+					<UserImg src="https://res.cloudinary.com/ayotheinspired/image/upload/v1620670514/samples/people/smiling-man.jpg" />
+				</>
+			)}
 		</Nav>
 	);
 }
@@ -106,4 +136,23 @@ const UserImg = styled.img`
 	cursor: pointer;
 	object-fit: cover;
 	border-radius: 50%;
+`;
+
+const Login = styled.div`
+	border: 1px solid #f9f9f9;
+	padding: 8px 16px;
+	border-radius: 4px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	background-color: rgba(0, 0, 0, 0.6);
+	cursor: pointer;
+	margin-left: auto;
+	font-weight: 600;
+	transition: all 0.2s ease-in-out;
+
+	&:hover {
+		background-color: #f9f9f9;
+		color: #000;
+		border-color: transparent;
+	}
 `;
