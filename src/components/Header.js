@@ -4,14 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import {
 	selectUserName,
 	selectUserPhoto,
+	setSignOut,
 	setUserLogin,
 } from "../features/user/userSlice";
 import { auth, provider } from "../firebase";
+import { useHistory } from "react-router-dom";
 
 function Header() {
 	const userName = useSelector(selectUserName);
 	const userPhoto = useSelector(selectUserPhoto);
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const signIn = () => {
 		auth.signInWithPopup(provider).then((result) => {
@@ -26,9 +29,16 @@ function Header() {
 		});
 	};
 
+	const signOut = () => {
+		auth.signOut().then(() => {
+			dispatch(setSignOut());
+			history.push("/");
+		});
+	};
+
 	return (
 		<Nav>
-			<Logo src="/images/logo.svg" />
+			<Logo src={"/images/logo.svg"} />
 
 			{!userName ? (
 				<Login onClick={signIn}>Login</Login>
@@ -61,7 +71,10 @@ function Header() {
 						</a>
 					</NavMenu>
 
-					<UserImg src="https://res.cloudinary.com/ayotheinspired/image/upload/v1620670514/samples/people/smiling-man.jpg" />
+					<UserImg
+						src="https://res.cloudinary.com/ayotheinspired/image/upload/v1620670514/samples/people/smiling-man.jpg"
+						onClick={signOut}
+					/>
 				</>
 			)}
 		</Nav>
